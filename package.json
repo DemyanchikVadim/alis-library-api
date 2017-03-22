@@ -5,6 +5,9 @@
   "repository": "https://github.com/DemyanchikVadim/alis-library-api.git",
   "author": "Demyanchik Vadim <vadim.demyanchik@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "alis": "nodemon --exec babel-node -- ./utils/alis.js"
+  },
   "dependencies": {
     "cheerio": "^0.22.0",
     "request": "^2.81.0"
