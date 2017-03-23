@@ -6,7 +6,8 @@
   "author": "Demyanchik Vadim <vadim.demyanchik@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "alis": "nodemon --exec babel-node -- ./utils/alis.js"
+    "alis": "nodemon --exec babel-node -- ./utils/alis.js",
+    "consumer": "nodemon --exec babel-node -- ./consumer.js"
   },
   "dependencies": {
     "cheerio": "^0.22.0",
