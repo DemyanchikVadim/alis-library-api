@@ -39,21 +39,28 @@ function getAllNextUrls(url) {
 function getAllBooks(pageUrls) {
   const promise = new Promise((resolve, reject) => {
     // array all 2013 year books
-    const books = [];
     // for each url make request and scrape books
-    pageUrls.forEach((elem, i) => {
-      request(`http://86.57.174.45/alis/EK/${pageUrls[i]}`, (err, res, body) => {
-        // load html page
+    Promise.all(pageUrls.map(url => new Promise((resolve, reject) => {
+      request(`http://86.57.174.45/alis/EK/${url}`, (err, resp, body) => {
+        if (err) {
+          return reject(err);
+        }
         const $ = cheerio.load(body);
+        const books = [];
         // get all books on the page
         $('.article').each(function () {
           books.push($(this).text());
         });
+        console.log(books);
+        resolve(books);
       });
-    });
-    if (books.length) {
+    }))).then((books) => {
       resolve(books);
-    } else {
+    }).catch((err) => {
+      console.log(err);
+    });
+
+    if (!pageUrls.length) {
       reject('Error');
     }
   });
@@ -75,7 +82,7 @@ function scrapeAlis(query) {
         const pageLinks = $('a[href^=\'do_other\']');
         const pageUrls = $(pageLinks).map((i, link) => $(link).attr('href')).toArray();
 
-        // scrape only last url in pagination,
+       // scrape only last url in pagination,
         const nextPageLink = $('#Agt');
         const nextPageUrl = (`${$(nextPageLink).attr('href')}`);
 
